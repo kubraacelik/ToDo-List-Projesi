@@ -10,46 +10,56 @@ const taskList = document.querySelector("#task-list");
 let todos;
 
 // load items
+
 loadItems();
 
 eventListeners();
 
+
+
 function eventListeners() {
   // submit event
-  form.addEventListener("submit", addNewItem); //formdaki + butonun tıklayınca
+  form.addEventListener("submit", addNewItem); //formdaki + butonuna tıklayınca
   // delete an item
   taskList.addEventListener("click", deleteItem); //task list'teki x butonuna tıklayınca
   // delete all item
   btnDeleteAll.addEventListener("click", deleteAllItems); //delete all butonuna tıklayınca
 }
 
+
+
 function loadItems() {
-  todos = getItemsFromLS();
+  todos = getItemsFromLS(); 
   todos.forEach(function (item) {
     createItem(item);
   });
 }
 
+
+
 // get items from local storage
-function getItemsFromLS() {
-  //verileri logal storage'den alacağız
-  if (localStorage.getItem("todos") === null) {
+function getItemsFromLS() { //verileri logal storage'den alacağız
+  if (localStorage.getItem("todos") === null) { //todos'un içindeki elemanları boş ise
     todos = [];
   } else {
-    todos = JSON.parse(localStorage.getItem("todos")); //JSON.parse = local storage'den gelen verileri array'e çevirir
+    todos = JSON.parse(localStorage.getItem("todos")); //JSON.parse = local storage'den gelen verileri array'e çevirir.Çünkü string olarak gelecek.
   }
   return todos;
 }
 
+
+
 // set item to Local Storage
-function setItemToLS(newTodo) {
-  //yeni bir eleman eklemek istediğimizde
-  todos = getItemsFromLS();
+function setItemToLS(newTodo) { //yeni bir eleman eklemek istediğimizde
+  todos = getItemsFromLS(); //önce olan elemanları çağırdık
   todos.push(newTodo);
   localStorage.setItem("todos", JSON.stringify(todos)); //JSON.stringify = diziyi string'e çevirir
 }
 
+
+
 function createItem(newTodo) {
+
   // li oluşturma
 
   const li = document.createElement("li");
@@ -85,12 +95,13 @@ function addNewItem(e) {
   e.preventDefault();
 }
 
+
+
 // TODO ELEMAN SİLME
 
 function deleteItem(e) {
-  if (e.target.className === "fas fa-times") {
+  if (e.target.className === "fas fa-times") { //tıklanılan yer x butonunun class'ı fas fa-times ise
     if (confirm("Silmek istediğinize emin misiniz?")) {
-      //tıklanılan yer x butonunun class'ı fas fa-times ise
       //console.log(e.target);
       e.target.parentElement.parentElement.remove(); //önce a'ya sonra li'ye gidip kaldıracak
       deleteTodoFromStorage(e.target.parentElement.parentElement.textContent);
@@ -98,6 +109,8 @@ function deleteItem(e) {
   }
   e.preventDefault();
 }
+
+
 
 function deleteTodoFromStorage(deletetodo){
     let todos = getItemsFromLS(); //logal storage'den veriyi çekeceğiz
@@ -110,6 +123,8 @@ function deleteTodoFromStorage(deletetodo){
     });
     localStorage.setItem("todos",JSON.stringify(todos)); //local storage'a son halini gönderiyoruz
 }
+
+
 
 // Tüm Elemanları Silmek
 
